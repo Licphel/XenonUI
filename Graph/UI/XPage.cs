@@ -6,108 +6,106 @@ namespace XenonUI.Graph.UI;
 public class XPage : XElement, XUIElementGroup
 {
 
-	public XUIElementManager Container = new XUIElementManager();
-	public Icon Icon;
-	public int LabelH;
-	public Lore Title;
-	public Vector2 TitleOffset;
-	public Vector2 CloserOffset;
+    private XButton closer;
+    public Vector2 CloserOffset;
 
-	private bool dragging;
-	private float lcx, lcy;
-	private XButton closer;
+    public XUIElementManager Container = new XUIElementManager();
 
-	public void SetCloseButton(XButton cls)
-	{
-		closer = cls;
-		closer.OnLeftFired += () => Removed = true;
-		closer.Bound.Locate(Bound.w + CloserOffset.x, Bound.h + CloserOffset.y);
-		Join(closer);
-	}
+    private bool dragging;
+    public Icon Icon;
+    public int LabelH;
+    private float lcx, lcy;
+    public Lore Title;
+    public Vector2 TitleOffset;
 
-	public T Join<T>(T component) where T : XElement
-	{
-		return Container.Join(component);
-	}
+    public T Join<T>(T component) where T : XElement
+    {
+        return Container.Join(component);
+    }
 
-	public void Remove(XElement stru)
-	{
-		Container.Remove(stru);
-	}
+    public void Remove(XElement stru)
+    {
+        Container.Remove(stru);
+    }
 
-	public void Ascend(XElement stru)
-	{
-		Container.Ascend(stru);
-	}
+    public void Ascend(XElement stru)
+    {
+        Container.Ascend(stru);
+    }
 
-	public void UpdateComponents(VaryingVector2 cursor, Vector2 tls)
-	{
-		Container.UpdateComponents(cursor, tls);
-	}
+    public void UpdateComponents(VaryingVector2 cursor, Vector2 tls)
+    {
+        Container.UpdateComponents(cursor, tls);
+    }
 
-	public List<XElement> Values => Container.Values;
+    public List<XElement> Values => Container.Values;
 
-	public override void Update()
-	{
-		base.Update();
+    public void SetCloseButton(XButton cls)
+    {
+        closer = cls;
+        closer.OnLeftFired += () => Removed = true;
+        closer.Bound.Locate(Bound.w + CloserOffset.x, Bound.h + CloserOffset.y);
+        Join(closer);
+    }
 
-		UpdateComponents(Cursor, new Vector2(Bound.x, Bound.y));
+    public override void Update()
+    {
+        base.Update();
 
-		if(!IsExposed())
-		{
-			return;
-		}
+        UpdateComponents(Cursor, new Vector2(Bound.x, Bound.y));
 
-		if(!dragging && KeyBind.MouseLeft.Pressed() && Bound.Contains(Cursor) && Cursor.y >= Bound.yprom - LabelH)
-		{
-			dragging = true;
-			lcx = Cursor.x;
-			lcy = Cursor.y;
-			Parent.Ascend(this);
-		}
+        if(!IsExposed()) return;
 
-		if(!KeyBind.MouseLeft.Holding())
-		{
-			dragging = false;
-		}
-		else if(dragging)
-		{
-			float nx = Cursor.x, ny = Cursor.y;
+        if(!dragging && KeyBind.MouseLeft.Pressed() && Bound.Contains(Cursor) && Cursor.y >= Bound.yprom - LabelH)
+        {
+            dragging = true;
+            lcx = Cursor.x;
+            lcy = Cursor.y;
+            Parent.Ascend(this);
+        }
 
-			Bound.Translate(nx - lcx, ny - lcy);
+        if(!KeyBind.MouseLeft.Holding())
+        {
+            dragging = false;
+        }
+        else if(dragging)
+        {
+            float nx = Cursor.x, ny = Cursor.y;
 
-			lcx = nx;
-			lcy = ny;
-		}
-	}
+            Bound.Translate(nx - lcx, ny - lcy);
 
-	public override void CollectTooltips(List<Lore> list)
-	{
-		base.CollectTooltips(list);
+            lcx = nx;
+            lcy = ny;
+        }
+    }
 
-		foreach(XElement c in Container.Components)
-		{
-			c.Bound.Translate(Bound.x, Bound.y);
-			if(c.Bound.Contains(Cursor))
-				c.CollectTooltips(list);
-			c.Bound.Translate(-Bound.x, -Bound.y);
-		}
-	}
+    public override void CollectTooltips(List<Lore> list)
+    {
+        base.CollectTooltips(list);
 
-	public override void Draw(Graphics graphics)
-	{
-		graphics.Draw(Icon, Bound);
+        foreach(XElement c in Container.Components)
+        {
+            c.Bound.Translate(Bound.x, Bound.y);
+            if(c.Bound.Contains(Cursor))
+                c.CollectTooltips(list);
+            c.Bound.Translate(-Bound.x, -Bound.y);
+        }
+    }
 
-		base.Draw(graphics);
+    public override void Draw(Graphics graphics)
+    {
+        graphics.Draw(Icon, Bound);
 
-		foreach(XElement c in Container.Components)
-		{
-			c.Bound.Translate(Bound.x, Bound.y);
-			c.Draw(graphics);
-			c.Bound.Translate(-Bound.x, -Bound.y);
-		}
+        base.Draw(graphics);
 
-		graphics.Draw(Title, Bound.x + TitleOffset.x, Bound.yprom - LabelH + TitleOffset.y);
-	}
+        foreach(XElement c in Container.Components)
+        {
+            c.Bound.Translate(Bound.x, Bound.y);
+            c.Draw(graphics);
+            c.Bound.Translate(-Bound.x, -Bound.y);
+        }
+
+        graphics.Draw(Title, Bound.x + TitleOffset.x, Bound.yprom - LabelH + TitleOffset.y);
+    }
 
 }

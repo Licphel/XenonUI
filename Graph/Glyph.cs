@@ -14,7 +14,7 @@ public struct Glyph
 
     public float Width => XMax - XMin;
     public float Height => YMax - YMin;
-    
+
     public static Glyph operator *(Glyph g, float m)
     {
         g.XMin *= m;
@@ -26,5 +26,5 @@ public struct Glyph
         g.Sink *= m;
         return g;
     }
-    
+
 }

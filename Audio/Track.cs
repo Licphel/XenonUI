@@ -1,10 +1,19 @@
 ﻿namespace XenonUI.Audio;
 
 /// <summary>
-/// A track represents a playable sound instance.
+///     A track represents a playable sound instance.
 /// </summary>
 public interface Track : IDisposable
 {
+
+    public enum Controller
+    {
+
+        Gain,
+        Pitch,
+        PlayPos
+
+    }
 
     TrackData Data { get; }
     bool IsPlaying { get; }
@@ -18,14 +27,5 @@ public interface Track : IDisposable
     void Stop();
     void Set(Controller controller, object v);
     object Get(Controller controller);
-   
-    public enum Controller
-    {
-
-        Gain,
-        Pitch,
-        PlayPos,
-        
-    }
 
 }

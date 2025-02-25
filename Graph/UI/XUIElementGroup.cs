@@ -5,14 +5,14 @@ namespace XenonUI.Graph.UI;
 public interface XUIElementGroup
 {
 
-	T Join<T>(T component) where T : XElement;
+    List<XElement> Values { get; }
 
-	void Remove(XElement stru);
+    T Join<T>(T component) where T : XElement;
 
-	void Ascend(XElement stru);
+    void Remove(XElement stru);
 
-	void UpdateComponents(VaryingVector2 cursor, Vector2 tls);
+    void Ascend(XElement stru);
 
-	List<XElement> Values { get; }
+    void UpdateComponents(VaryingVector2 cursor, Vector2 tls);
 
 }

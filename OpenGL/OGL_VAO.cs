@@ -1,5 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL;
-using XenonUI.Core;
+﻿using KryptonM;
+using OpenTK.Graphics.OpenGL;
 
 namespace XenonUI.OpenGL;
 

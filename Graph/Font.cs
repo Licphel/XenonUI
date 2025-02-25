@@ -3,57 +3,58 @@
 public abstract class Font
 {
 
-	public static string ASCII = "!@#$%^&*()_+-=[]{}|\\;':\"<>,./?~`ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-	
-	public float Scale = 1f;
-	public float Size;
-	
-	public abstract Glyph GetGlyph(char ch);
-	public abstract float LineH { get; }
-	public abstract float ScaledAndBlankedLineH { get; }
+    public static string ASCII =
+        "!@#$%^&*()_+-=[]{}|\\;':\"<>,./?~`ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
 
-	public GlyphBounds GetBounds(string text, float maxWidth = int.MaxValue)
-	{
-		float width = 0;
-		float lineWidth = 0;
-		float height = 0;
-		float lineHeight = ScaledAndBlankedLineH;
-		bool needNewLine = false;
+    public float Scale = 1f;
+    public float Size;
+    public abstract float LineH { get; }
+    public abstract float ScaledAndBlankedLineH { get; }
 
-		for(int i = 0; i < text.Length; i++)
-		{
-			char c = text[i];
+    public abstract Glyph GetGlyph(char ch);
 
-			if(c == '\n' || needNewLine)
-			{
-				height += lineHeight;
-				width = System.Math.Max(lineWidth, width);
-				lineWidth = 0;
-				needNewLine = false;
-				continue;
-			}
+    public GlyphBounds GetBounds(string text, float maxWidth = int.MaxValue)
+    {
+        float width = 0;
+        float lineWidth = 0;
+        float height = 0;
+        var lineHeight = ScaledAndBlankedLineH;
+        var needNewLine = false;
 
-			float w = GetGlyph(c).Advance * Scale;
+        for(var i = 0; i < text.Length; i++)
+        {
+            var c = text[i];
 
-			if(lineWidth + w >= maxWidth)
-			{
-				needNewLine = true;
-				i -= 2;
-				continue;
-			}
+            if(c == '\n' || needNewLine)
+            {
+                height += lineHeight;
+                width = Math.Max(lineWidth, width);
+                lineWidth = 0;
+                needNewLine = false;
+                continue;
+            }
 
-			lineWidth += w;
-		}
+            var w = GetGlyph(c).Advance * Scale;
 
-		height += lineHeight;
-		width = System.Math.Max(lineWidth, width);
+            if(lineWidth + w >= maxWidth)
+            {
+                needNewLine = true;
+                i -= 2;
+                continue;
+            }
 
-		return new GlyphBounds(text, width, height, lineWidth);
-	}
+            lineWidth += w;
+        }
 
-	public GlyphBounds GetBounds(Lore text, float maxWidth = int.MaxValue)
-	{
-		return GetBounds(text.Summary, maxWidth);
-	}
+        height += lineHeight;
+        width = Math.Max(lineWidth, width);
+
+        return new GlyphBounds(text, width, height, lineWidth);
+    }
+
+    public GlyphBounds GetBounds(Lore text, float maxWidth = int.MaxValue)
+    {
+        return GetBounds(text.Summary, maxWidth);
+    }
 
 }

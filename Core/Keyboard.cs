@@ -5,33 +5,33 @@ namespace XenonUI.Core;
 public interface Keyboard
 {
 
-	public static Keyboard Global;
+    public static Keyboard Global;
 
-	VaryingVector2 Cursor { get; }
-	ScrollDirection ScrollDirection { get; }
-	float Scroll { get; }
-	string ClippedText { get; set; }
-	string Text { get; }
+    VaryingVector2 Cursor { get; }
+    ScrollDirection ScrollDirection { get; }
+    float Scroll { get; }
+    string ClippedText { get; set; }
+    string Text { get; }
 
-	KeyBind Observe(KeyID code);
+    KeyBind Observe(KeyID code);
 
-	KeyBind Observe(int code);
+    KeyBind Observe(int code);
 
-	void ConsumeTextInput();
+    void ConsumeTextInput();
 
-	void ConsumeCursorScroll();
+    void ConsumeCursorScroll();
 
-	void StartRoll();
+    void StartRoll();
 
-	void EndRoll();
+    void EndRoll();
 
 }
 
 public enum ScrollDirection
 {
 
-	NONE,
-	UP,
-	DOWN
+    NONE,
+    UP,
+    DOWN
 
 }

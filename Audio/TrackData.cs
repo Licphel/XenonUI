@@ -3,7 +3,8 @@
 public interface TrackData
 {
 
-    public Track NewTrack();
     public TimeSpan Length { get; }
-    
+
+    public Track NewTrack();
+
 }

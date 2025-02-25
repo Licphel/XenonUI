@@ -1,8 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using FreeTypeSharp;
-using OpenTK.Graphics.OpenGL;
-using XenonIO.IO;
-using XenonUI.Core;
+using KryptonM;
+using KryptonM.IO;
 using XenonUI.Graph;
 using Font = XenonUI.Graph.Font;
 using Graph_Font = XenonUI.Graph.Font;
@@ -15,9 +14,13 @@ namespace XenonUI.OpenGL;
 public unsafe class OGL_FT_Font : Graph_Font
 {
 
-    private uint resolution;
-    private FT_FaceRec_* face, face1;
     private readonly Dictionary<char, Glyph> Buf = new Dictionary<char, Glyph>();
+    private FT_FaceRec_* face, face1;
+
+    private uint resolution;
+
+    public override float LineH => Size;
+    public override float ScaledAndBlankedLineH => LineH * Scale + Scale;
 
     public static Font Load(FileHandle[] files, int resolution, int size)
     {
@@ -36,31 +39,29 @@ public unsafe class OGL_FT_Font : Graph_Font
             FT_New_Face(lib1, (byte*)Marshal.StringToHGlobalAnsi(files[1].Path), 0, &face1);
             FT_Select_Charmap(face1, FT_Encoding_.FT_ENCODING_UNICODE);
         }
-        return new OGL_FT_Font() { face = face, face1 =  face1, resolution = (uint) resolution, Size = size };
+
+        return new OGL_FT_Font { face = face, face1 = face1, resolution = (uint)resolution, Size = size };
     }
 
     public override Glyph GetGlyph(char ch)
     {
-        if(Buf.TryGetValue(ch, out var g1))
-        {
-            return g1;
-        }
+        if(Buf.TryGetValue(ch, out Glyph g1)) return g1;
 
         FT_FaceRec_* face = this.face;
-        uint idx = FT_Get_Char_Index(face, ch);
+        var idx = FT_Get_Char_Index(face, ch);
 
-        if(idx == 0) face = this.face1;//fallback
-        
+        if(idx == 0) face = face1; //fallback
+
         FT_Set_Pixel_Sizes(face, 0, resolution);
         FT_Load_Glyph(face, idx, FT_LOAD_DEFAULT);
         FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
         FT_Bitmap_ m0 = face->glyph->bitmap;
         OGL_Image image = new OGL_Image();
-        int len = (int)(m0.width * m0.rows * 4);
-        byte* buf = stackalloc byte[len];
-        for(int i = 0; i < len; i += 4)
+        var len = (int)(m0.width * m0.rows * 4);
+        var buf = stackalloc byte[len];
+        for(var i = 0; i < len; i += 4)
         {
-            byte grey = m0.buffer[i / 4];
+            var grey = m0.buffer[i / 4];
             buf[i + 0] = 255;
             buf[i + 1] = 255;
             buf[i + 2] = 255;
@@ -69,14 +70,12 @@ public unsafe class OGL_FT_Font : Graph_Font
 
         image.Upload((IntPtr)buf,
             (int)face->glyph->bitmap.width,
-            (int)face->glyph->bitmap.rows,
-            InternalFormat.Rgba,
-            PixelFormat.Bgra);
-        
+            (int)face->glyph->bitmap.rows);
+
         image.SetPixelRenderMode("Linear|Linear|Repeat|Repeat");
 
-        float ds = (float) resolution / Size;
-       
+        var ds = resolution / Size;
+
         Glyph g = new Glyph();
         g.Src = image;
         g.XMin = 0;
@@ -86,13 +85,10 @@ public unsafe class OGL_FT_Font : Graph_Font
         g.Advance = face->glyph->advance.x / ds / 64f;
         g.Bearing = face->glyph->metrics.horiBearingX / ds / 64f;
         g.Sink = face->glyph->metrics.horiBearingY / ds / 64f - g.Height - face->bbox.yMin / ds / 64f;
-        
+
         Buf[ch] = g;
-        
+
         return g;
     }
-
-    public override float LineH => Size;
-    public override float ScaledAndBlankedLineH => LineH * Scale + Scale;
 
 }

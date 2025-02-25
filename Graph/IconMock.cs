@@ -3,12 +3,14 @@
 public class IconMock : Icon
 {
 
-	public static IconMock Instance = new IconMock();
+    public static IconMock Instance = new IconMock();
 
-	private IconMock() {}
+    private IconMock()
+    {
+    }
 
-	public void Draw(Graphics graphics, float x, float y, float w, float h)
-	{
-	}
+    public void Draw(Graphics graphics, float x, float y, float w, float h)
+    {
+    }
 
 }

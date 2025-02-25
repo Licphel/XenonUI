@@ -5,20 +5,20 @@ namespace XenonUI.Graph;
 public interface GraphicsDevice
 {
 
-	public static GraphicsDevice Global;
+    public static GraphicsDevice Global;
 
-	string Title { set; }
+    string Title { set; }
 
-	Vector2 Size { get; set; }
+    Vector2 Size { get; set; }
 
-	Vector2 DeviceSize { get; }
+    Vector2 DeviceSize { get; }
 
-	Vector2 Pos { get; set; }
+    Vector2 Pos { get; set; }
 
-	bool Decorated { set; }
+    bool Decorated { set; }
 
-	void Maximize();
+    void Maximize();
 
-	void SwapBuffer();
+    void SwapBuffer();
 
 }

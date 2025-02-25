@@ -1,4 +1,5 @@
-﻿using OpenTK.Windowing.GraphicsLibraryFramework;
+﻿using KryptonM.Maths;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using XenonUI.Core;
 using XenonUI.Maths;
 
@@ -7,75 +8,72 @@ namespace XenonUI.OpenGL;
 public class OGL_Keyboard : Keyboard
 {
 
-	public Dictionary<int, OGL_KeyBind> Observers = new Dictionary<int, OGL_KeyBind>();
-	public int PCcountdown;
-	public string PileChars = "";
-	public float Scroll { get => FloatMath.Abs(ScrollUABS); set => ScrollUABS = value; }
-	public float ScrollUABS;
-	public VaryingVector2 Cursor { get; } = new VaryingVector2();
+    public Dictionary<int, OGL_KeyBind> Observers = new Dictionary<int, OGL_KeyBind>();
+    public int PCcountdown;
+    public string PileChars = "";
+    public float ScrollUABS;
 
-	public KeyBind Observe(KeyID code)
-	{
-		return Observe((int) code);
-	}
+    public float Scroll
+    {
+        get => FloatMath.Abs(ScrollUABS);
+        set => ScrollUABS = value;
+    }
 
-	public KeyBind Observe(int code)
-	{
-		if(!Observers.ContainsKey(code))
-		{
-			Observers[code] = new OGL_KeyBind();
-		}
+    public VaryingVector2 Cursor { get; } = new VaryingVector2();
 
-		OGL_KeyBind obs = Observers[code];
+    public KeyBind Observe(KeyID code)
+    {
+        return Observe((int)code);
+    }
 
-		return obs;
-	}
+    public KeyBind Observe(int code)
+    {
+        if(!Observers.ContainsKey(code)) Observers[code] = new OGL_KeyBind();
 
-	public unsafe string ClippedText
-	{
-		get => GLFW.GetClipboardString(OGL.Window);
-		set => GLFW.SetClipboardString(OGL.Window, value);
-	}
+        OGL_KeyBind obs = Observers[code];
 
-	public string Text => PileChars;
+        return obs;
+    }
 
-	public void ConsumeTextInput()
-	{
-		PileChars = "";
-		PCcountdown = 2;
-	}
+    public unsafe string ClippedText
+    {
+        get => GLFW.GetClipboardString(OGL.Window);
+        set => GLFW.SetClipboardString(OGL.Window, value);
+    }
 
-	public void ConsumeCursorScroll()
-	{
-		Scroll = 0;
-	}
+    public string Text => PileChars;
 
-	public ScrollDirection ScrollDirection
-	{
-		get
-		{
-			if(ScrollUABS > 0)
-			{
-				return ScrollDirection.UP;
-			}
+    public void ConsumeTextInput()
+    {
+        PileChars = "";
+        PCcountdown = 2;
+    }
 
-			if(ScrollUABS < 0)
-			{
-				return ScrollDirection.DOWN;
-			}
+    public void ConsumeCursorScroll()
+    {
+        Scroll = 0;
+    }
 
-			return ScrollDirection.NONE;
-		}
-	}
+    public ScrollDirection ScrollDirection
+    {
+        get
+        {
+            if(ScrollUABS > 0) return ScrollDirection.UP;
 
-	public void StartRoll()
-	{
-		PCcountdown--;
-	}
+            if(ScrollUABS < 0) return ScrollDirection.DOWN;
 
-	public void EndRoll()
-	{
-		OGL_KeyBind.InputCheckTicks++;
-	}
+            return ScrollDirection.NONE;
+        }
+    }
+
+    public void StartRoll()
+    {
+        PCcountdown--;
+    }
+
+    public void EndRoll()
+    {
+        OGL_KeyBind.InputCheckTicks++;
+    }
 
 }

@@ -1,10 +1,8 @@
-﻿using System.Runtime.InteropServices;
+﻿namespace XenonUI.Graph.IMP;
 
-namespace XenonUI.Graph.IMP;
-
-public unsafe class ImageRGBA : Image
+public class ImageRGBA : Image
 {
-    
+
     public ImageRGBA(int w, int h)
     {
         HasData = true;

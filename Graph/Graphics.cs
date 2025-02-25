@@ -4,46 +4,95 @@ using XenonUI.Maths;
 namespace XenonUI.Graph;
 
 public delegate void VertexAppender(Graphics graphics);
+
 public delegate void UniformAppender(Graphics graphics);
 
 public abstract class Graphics
 {
 
     public static Graphics Global;
-    
+    public Color[] _colors = new Color[4];
+    public Stack<Color[]> _colorStack = new Stack<Color[]>();
+    public Camera CameraNow;
+
     public bool FlipX;
     public bool FlipY;
     public Font Font;
     public FontCarver FontCarver = new DefaultFontCarver();
-    public Color[] _colors = new Color[4];
-    public Stack<Color[]> _colorStack = new Stack<Color[]>();
+    public MatrixStack Matrices = new MatrixStack();
     public Shader Program;
     public Matrix Projection = new Matrix();
-    public MatrixStack Matrices = new MatrixStack();
-    public Camera CameraNow;
     public Image Texfil;
     public Image TexMissing;
     public Transform Transform = new Transform();
     public UniformAppender UniformAppender;
     public VertexAppender[] VertAppenders;
     public Vector4 ViewportArray;
-    
-    public void DrawRect(float x, float y, float width, float height) => DrawImage(Texfil, x, y, width, height);
-    public void DrawRect(Rect dst) => DrawRect(dst.x, dst.y, dst.w, dst.h);
-    
-    public abstract void DrawImage(Image img, float x, float y, float width, float height, float srcX, float srcY, float srcWidth, float srcHeight);
-    public void DrawImage(Image img, float x, float y, float sx, float sy, float sw, float sh) => DrawImage(img, x, y, sw, sh, sx, sy, sw, sh);
-    public void DrawImage(Image img, float x, float y, float w, float h) => DrawImage(img, x, y, w, h, 0, 0, img.Width, img.Height);
-    public void DrawImage(Image img, float x, float y) => DrawImage(img, x, y, img.Width, img.Height, 0, 0, img.Width, img.Height);
-    public void DrawImage(Image img, Rect dst, Rect src) => DrawImage(img, dst.x, dst.y, dst.w, dst.h, src.x, src.y, src.w, src.h);
-    public void DrawImage(Image img, Rect dst) => DrawImage(img, dst.x, dst.y, dst.w, dst.h);
-    public void DrawImage(Image img, Rect dst, float sx, float sy, float sw, float sh) => DrawImage(img, dst.x, dst.y, dst.w, dst.h, sx, sy, sw, sh);
-    public void DrawImage(Image img, float x, float y, float w, float h, Rect src) => DrawImage(img, x, y, w, h, src.x, src.y, src.w, src.h);
 
-    public virtual void Draw(string text, float x, float y, float maxWidth = int.MaxValue) => FontCarver.Draw(this, Font, text, x, y, maxWidth);
+    public abstract bool SupportTransformation { get; }
 
-    public void Draw(Icon icon, Rect dst) => icon.Draw(this, dst.x, dst.y, dst.w, dst.h);
-    public void Draw(Icon icon, float x, float y, float width, float height) => icon.Draw(this, x, y, width, height);
+    public void DrawRect(float x, float y, float width, float height)
+    {
+        DrawImage(Texfil, x, y, width, height);
+    }
+
+    public void DrawRect(Rect dst)
+    {
+        DrawRect(dst.x, dst.y, dst.w, dst.h);
+    }
+
+    public abstract void DrawImage(Image img, float x, float y, float width, float height, float srcX, float srcY,
+        float srcWidth, float srcHeight);
+
+    public void DrawImage(Image img, float x, float y, float sx, float sy, float sw, float sh)
+    {
+        DrawImage(img, x, y, sw, sh, sx, sy, sw, sh);
+    }
+
+    public void DrawImage(Image img, float x, float y, float w, float h)
+    {
+        DrawImage(img, x, y, w, h, 0, 0, img.Width, img.Height);
+    }
+
+    public void DrawImage(Image img, float x, float y)
+    {
+        DrawImage(img, x, y, img.Width, img.Height, 0, 0, img.Width, img.Height);
+    }
+
+    public void DrawImage(Image img, Rect dst, Rect src)
+    {
+        DrawImage(img, dst.x, dst.y, dst.w, dst.h, src.x, src.y, src.w, src.h);
+    }
+
+    public void DrawImage(Image img, Rect dst)
+    {
+        DrawImage(img, dst.x, dst.y, dst.w, dst.h);
+    }
+
+    public void DrawImage(Image img, Rect dst, float sx, float sy, float sw, float sh)
+    {
+        DrawImage(img, dst.x, dst.y, dst.w, dst.h, sx, sy, sw, sh);
+    }
+
+    public void DrawImage(Image img, float x, float y, float w, float h, Rect src)
+    {
+        DrawImage(img, x, y, w, h, src.x, src.y, src.w, src.h);
+    }
+
+    public virtual void Draw(string text, float x, float y, float maxWidth = int.MaxValue)
+    {
+        FontCarver.Draw(this, Font, text, x, y, maxWidth);
+    }
+
+    public void Draw(Icon icon, Rect dst)
+    {
+        icon.Draw(this, dst.x, dst.y, dst.w, dst.h);
+    }
+
+    public void Draw(Icon icon, float x, float y, float width, float height)
+    {
+        icon.Draw(this, x, y, width, height);
+    }
 
     public void Draw(string text, float x, float y, Align align, float maxWidth = int.MaxValue)
     {
@@ -63,7 +112,10 @@ public abstract class Graphics
         }
     }
 
-    public virtual void Draw(Lore text, float x, float y, float maxWidth = int.MaxValue) => FontCarver.Draw(this, Font, text, x, y, maxWidth);
+    public virtual void Draw(Lore text, float x, float y, float maxWidth = int.MaxValue)
+    {
+        FontCarver.Draw(this, Font, text, x, y, maxWidth);
+    }
 
     public void Draw(Lore text, float x, float y, Align align, float maxWidth = int.MaxValue)
     {
@@ -84,25 +136,48 @@ public abstract class Graphics
                 break;
         }
     }
-    
+
     public abstract void Clear();
     public abstract void Flush();
-    
-    public abstract bool SupportTransformation { get; }
-    
-    public virtual void Viewport(float x, float y, float w, float h) => throw new NotImplementedException();
-    public void Viewport(Vector4 viewport) => Viewport(viewport.x, viewport.y, viewport.z, viewport.w);
-    
-    public virtual void Scissor(float x, float y, float w, float h) => throw new NotImplementedException();
-    public void Scissor(Vector4 rect) => Scissor(rect.x, rect.y, rect.z, rect.w);
-    public virtual void ScissorEnd() => throw new NotImplementedException();
-    
-    public virtual void UseCamera(Camera camera) => throw new NotImplementedException();
-    public virtual void EndCamera(Camera camera) => throw new NotImplementedException();
-    
+
+    public virtual void Viewport(float x, float y, float w, float h)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Viewport(Vector4 viewport)
+    {
+        Viewport(viewport.x, viewport.y, viewport.z, viewport.w);
+    }
+
+    public virtual void Scissor(float x, float y, float w, float h)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Scissor(Vector4 rect)
+    {
+        Scissor(rect.x, rect.y, rect.z, rect.w);
+    }
+
+    public virtual void ScissorEnd()
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual void UseCamera(Camera camera)
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual void EndCamera(Camera camera)
+    {
+        throw new NotImplementedException();
+    }
+
     public abstract void UseShader(Shader program);
     public abstract void UseDefaultShader();
-    
+
     public abstract void CheckTransformAndCap();
 
     public abstract void Write(Vector2 vec);
@@ -115,7 +190,7 @@ public abstract class Graphics
     public abstract void WriteTransformed(Vector2 vec);
     public abstract void NewVertex(int v);
     public abstract void NewIndex(int v);
-    
+
     public void Color4(float r, float g, float b, float a = 1)
     {
         _colors[0] = _colors[1] = _colors[2] = _colors[3] = new Color(r, g, b, a);
@@ -152,17 +227,17 @@ public abstract class Graphics
 
     public void NormalizeColor()
     {
-        _colors[0] = _colors[1] = _colors[2] = _colors[3] = new Color(1, 1, 1, 1);
+        _colors[0] = _colors[1] = _colors[2] = _colors[3] = new Color(1, 1, 1);
     }
 
     public void PushColor()
     {
-        _colorStack.Push(new Color[] {_colors[0], _colors[1], _colors[2], _colors[3]});
+        _colorStack.Push(new[] { _colors[0], _colors[1], _colors[2], _colors[3] });
     }
 
     public void PopColor()
     {
         _colors = _colorStack.Pop();
     }
-    
+
 }

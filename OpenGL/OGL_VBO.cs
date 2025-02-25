@@ -1,40 +1,40 @@
-﻿using OpenTK.Graphics.OpenGL;
-using XenonUI.Core;
+﻿using KryptonM;
+using OpenTK.Graphics.OpenGL;
 
 namespace XenonUI.OpenGL;
 
 public class OGL_VBO<T> where T : unmanaged
 {
 
-	private readonly BufferTarget type;
+    private readonly BufferTarget type;
 
-	public int Id;
+    public int Id;
 
-	public unsafe OGL_VBO(T* data, int len, BufferTarget target, BufferUsage hint)
-	{
-		type = target;
-		Id = GL.GenBuffer();
+    public unsafe OGL_VBO(T* data, int len, BufferTarget target, BufferUsage hint)
+    {
+        type = target;
+        Id = GL.GenBuffer();
 
-		Bind();
+        Bind();
 
-		GL.BufferData(type, len * sizeof(T), (IntPtr) data, hint);
+        GL.BufferData(type, len * sizeof(T), (IntPtr)data, hint);
 
-		NativeManager.I0.Remind(() => GL.DeleteBuffer(Id));
-	}
+        NativeManager.I0.Remind(() => GL.DeleteBuffer(Id));
+    }
 
-	public void Bind()
-	{
-		GL.BindBuffer(type, Id);
-	}
+    public void Bind()
+    {
+        GL.BindBuffer(type, Id);
+    }
 
-	public void Unbind()
-	{
-		GL.BindBuffer(type, 0);
-	}
+    public void Unbind()
+    {
+        GL.BindBuffer(type, 0);
+    }
 
-	public unsafe void UpdateBuffer(nint offset, T* data, int len)
-	{
-		GL.BufferSubData(type, offset, len * sizeof(T), (IntPtr) data);
-	}
+    public unsafe void UpdateBuffer(nint offset, T* data, int len)
+    {
+        GL.BufferSubData(type, offset, len * sizeof(T), (IntPtr)data);
+    }
 
 }
