@@ -1,0 +1,15 @@
+D:\XenonUI Environment\XenonUI\bin\Debug\net9.0\XenonUI.deps.json
+D:\XenonUI Environment\XenonUI\bin\Debug\net9.0\XenonUI.dll
+D:\XenonUI Environment\XenonUI\bin\Debug\net9.0\XenonUI.pdb
+D:\XenonUI Environment\XenonUI\bin\Debug\net9.0\KryptonM.dll
+D:\XenonUI Environment\XenonUI\bin\Debug\net9.0\KryptonM.pdb
+D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\XenonUI.csproj.AssemblyReference.cache
+D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\XenonUI.GeneratedMSBuildEditorConfig.editorconfig
+D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\XenonUI.AssemblyInfoInputs.cache
+D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\XenonUI.AssemblyInfo.cs
+D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\XenonUI.csproj.CoreCompileInputs.cache
+D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\XenonUI.csproj.Up2Date
+D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\XenonUI.dll
+D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\refint\XenonUI.dll
+D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\XenonUI.pdb
+D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\ref\XenonUI.dll

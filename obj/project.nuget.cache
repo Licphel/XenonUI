@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "dgSpecHash": "O9Of8pf0kNc=",
+  "success": true,
+  "projectFilePath": "D:\\XenonUI Environment\\XenonUI\\XenonUI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\licph\\.nuget\\packages\\freetypesharp\\3.0.0\\freetypesharp.3.0.0.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\microsoft.win32.systemevents\\9.0.2\\microsoft.win32.systemevents.9.0.2.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk\\5.0.0-pre.13\\opentk.5.0.0-pre.13.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk.audio.openal\\5.0.0-pre.13\\opentk.audio.openal.5.0.0-pre.13.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk.compute\\5.0.0-pre.13\\opentk.compute.5.0.0-pre.13.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk.core\\5.0.0-pre.13\\opentk.core.5.0.0-pre.13.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk.graphics\\5.0.0-pre.13\\opentk.graphics.5.0.0-pre.13.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk.input\\5.0.0-pre.13\\opentk.input.5.0.0-pre.13.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk.mathematics\\5.0.0-pre.13\\opentk.mathematics.5.0.0-pre.13.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk.platform\\5.0.0-pre.13\\opentk.platform.5.0.0-pre.13.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk.redist.glfw\\3.3.8.39\\opentk.redist.glfw.3.3.8.39.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk.windowing.common\\5.0.0-pre.13\\opentk.windowing.common.5.0.0-pre.13.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk.windowing.desktop\\5.0.0-pre.13\\opentk.windowing.desktop.5.0.0-pre.13.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\opentk.windowing.graphicslibraryframework\\5.0.0-pre.13\\opentk.windowing.graphicslibraryframework.5.0.0-pre.13.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\stbimagesharp\\2.30.15\\stbimagesharp.2.30.15.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\system.drawing.common\\9.0.2\\system.drawing.common.9.0.2.nupkg.sha512",
+    "C:\\Users\\licph\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
