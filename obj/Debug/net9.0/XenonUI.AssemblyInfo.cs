@@ -7,16 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("XenonUI")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cbc619b5be0b1c67929d44a2817d1f966da1169d")]
-[assembly: System.Reflection.AssemblyProductAttribute("XenonUI")]
-[assembly: System.Reflection.AssemblyTitleAttribute("XenonUI")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+[assembly: AssemblyCompany("XenonUI")]
+[assembly: AssemblyConfiguration("Debug")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyInformationalVersion("1.0.0+b379cc2f4dbaacc1c3f6de8d91f251c2b478b5e4")]
+[assembly: AssemblyProduct("XenonUI")]
+[assembly: AssemblyTitle("XenonUI")]
+[assembly: AssemblyVersion("1.0.0.0")]
 
 // 由 MSBuild WriteCodeFragment 类生成。
 

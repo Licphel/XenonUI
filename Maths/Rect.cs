@@ -12,7 +12,7 @@ public struct Rect
     public float w { get; set; }
     public float h { get; set; }
 
-    public void Inted()
+    public void Round()
     {
         xcentral = (int)xcentral;
         ycentral = (int)ycentral;

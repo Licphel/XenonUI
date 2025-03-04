@@ -14,7 +14,7 @@ public static class TrackManager
     {
         lock(tracksPlaying)
         {
-            for(var i = tracksPlaying.Count - 1; i >= 0; i--)
+            for(int i = tracksPlaying.Count - 1; i >= 0; i--)
             {
                 Track? c = tracksPlaying[i];
                 if(!c.IsPlaying && !c.IsPaused)

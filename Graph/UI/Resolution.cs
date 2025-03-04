@@ -15,8 +15,8 @@ public class Resolution
 
     public Resolution(XGui curGui)
     {
-        Xsize = GraphicsDevice.Global.Size.x;
-        Ysize = GraphicsDevice.Global.Size.y;
+        Xsize = GraphicsDevice.Current.Size.x;
+        Ysize = GraphicsDevice.Current.Size.y;
 
         if(AllowResolution)
         {
@@ -43,7 +43,7 @@ public class Resolution
         {
             Factor *= curGui.ScaleMul;
 
-            var locked = curGui.ScaleLocked;
+            float locked = curGui.ScaleLocked;
 
             if(locked > 0) Factor = locked;
         }

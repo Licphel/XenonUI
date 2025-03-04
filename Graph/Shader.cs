@@ -1,12 +1,18 @@
-﻿namespace XenonUI.Graph;
+﻿using XenonUI.Maths;
 
-public abstract class Shader
+namespace XenonUI.Graph;
+
+public interface Shader
 {
 
-    public abstract void Setup();
+    void Setup();
 
-    public abstract void Bind();
+    void Bind();
 
-    public abstract void Unbind();
+    void Unbind();
+
+    ShaderUniform GetUniform(string name);
+
+    ShaderAttrib GetAttrib(string name);
 
 }

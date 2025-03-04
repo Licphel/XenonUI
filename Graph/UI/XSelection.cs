@@ -1,4 +1,5 @@
 ﻿using XenonUI.Core;
+using XenonUI.Graph.Text;
 using XenonUI.Maths;
 
 namespace XenonUI.Graph.UI;
@@ -63,13 +64,13 @@ public class XSelection : XElement
 
     protected void renderEntries(Graphics graphics)
     {
-        var per = Bound.h / TotalSize;
+        float per = Bound.h / TotalSize;
         if(per > 1) per = 1;
 
-        var pos = Scroller.Pos;
+        float pos = Scroller.Pos;
 
-        for(var i = 0; i < Entries.Count; i++) Entries[i].Correct(pos);
-        for(var i = 0; i < Entries.Count; i++) Entries[i].Draw(graphics);
+        for(int i = 0; i < Entries.Count; i++) Entries[i].Correct(pos);
+        for(int i = 0; i < Entries.Count; i++) Entries[i].Draw(graphics);
 
         Scroller.Draw(graphics, this);
     }
@@ -128,8 +129,8 @@ public class XSelection : XElement
         public virtual bool IsHovering()
         {
             if(Parent.Scroller.IsDragging) return false; //Avoid accidental action
-            var mx = Cursor.x;
-            var my = Cursor.y;
+            float mx = Cursor.x;
+            float my = Cursor.y;
             return mx >= x && mx <= x + w && my >= y && my <= y + h && Parent.Bound.Contains(mx, my);
         }
 

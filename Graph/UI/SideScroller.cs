@@ -53,7 +53,7 @@ public class SideScroller
     {
         Keyboard input = Keyboard.Global;
 
-        var scr = input.Scroll;
+        float scr = input.Scroll;
 
         prevPos = startPos;
 
@@ -80,8 +80,8 @@ public class SideScroller
         {
             if(!IsDragging)
             {
-                var mx = c.Cursor.x;
-                var my = c.Cursor.y;
+                float mx = c.Cursor.x;
+                float my = c.Cursor.y;
 
                 if(mx >= bx - 1 && mx <= bx + bw + 1 && my >= by - 1 && my <= by + bh + 1)
                 {
@@ -105,12 +105,12 @@ public class SideScroller
 
     public void Draw(Graphics graphics, XElement c)
     {
-        var per = (c.Bound.h - Outline * 2) / TotalSize;
+        float per = (c.Bound.h - Outline * 2) / TotalSize;
         if(per > 1) per = 1;
 
-        var scrollPer = Math.Abs(Pos) / TotalSize;
-        var h = c.Bound.h * per;
-        var oh = scrollPer * c.Bound.h;
+        float scrollPer = Math.Abs(Pos) / TotalSize;
+        float h = c.Bound.h * per;
+        float oh = scrollPer * c.Bound.h;
 
         bh = h;
         bx = c.Bound.xprom - 5;

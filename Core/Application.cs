@@ -40,7 +40,7 @@ public class Application
 
     public static bool PeriodicTask(float seconds)
     {
-        var ticks = (int)(seconds * Tps);
+        int ticks = (int)(seconds * Tps);
         return Ticks % ticks == 0;
     }
 
@@ -59,13 +59,13 @@ public class Application
         if(MaxTps < 60)
             Logger.Fatal("Tps cannot be less than 60!");
 
-        var syncRender = MaxFps != -1;
+        bool syncRender = MaxFps != -1;
 
         double renderPartialTicks = 0f;
-        var lastSyncSysClock = Time.Nanosecs;
-        var tickLength = 1_000_000_000.0 / MaxTps;
+        double lastSyncSysClock = Time.Nanosecs;
+        double tickLength = 1_000_000_000.0 / MaxTps;
         int framesT = 0, framesR = 0;
-        var lastCalcClock = Time.Millisecs;
+        float lastCalcClock = Time.Millisecs;
 
         Init();
 
@@ -74,14 +74,14 @@ public class Application
 
         while(!Stopped)
         {
-            var i = Time.Nanosecs;
-            var elapsedPartialTicks = (i - lastSyncSysClock) / tickLength;
+            double i = Time.Nanosecs;
+            double elapsedPartialTicks = (i - lastSyncSysClock) / tickLength;
             lastSyncSysClock = i;
             renderPartialTicks += elapsedPartialTicks;
-            var elapsedTicks = (int)renderPartialTicks;
+            int elapsedTicks = (int)renderPartialTicks;
             renderPartialTicks -= elapsedTicks;
 
-            for(var j = 0; j < Math.Min(MaxLeap, elapsedTicks); j++)
+            for(int j = 0; j < Math.Min(MaxLeap, elapsedTicks); j++)
             {
                 framesT++;
                 Ticks++;

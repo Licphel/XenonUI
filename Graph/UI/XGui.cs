@@ -1,4 +1,6 @@
 ﻿using XenonUI.Core;
+using XenonUI.Graph.Images;
+using XenonUI.Graph.Text;
 using XenonUI.Maths;
 
 namespace XenonUI.Graph.UI;
@@ -106,7 +108,7 @@ public class XGui : XUIElementManager
     public Vector4 GetScaledLargestCanvas()
     {
         float w = Size.x, h = Size.y;
-        var rt = Application.ScaledSize.x / Application.ScaledSize.y;
+        float rt = Application.ScaledSize.x / Application.ScaledSize.y;
         float fw, fh;
 
         if(w / h > rt)
@@ -142,9 +144,9 @@ public class XGui : XUIElementManager
     {
         if(TooltipList.Count <= 0) return;
 
-        var maxw0 = Size.x / 1.5f;
+        float maxw0 = Size.x / 1.5f;
 
-        var eh = graphics.Font.ScaledAndBlankedLineH;
+        float eh = graphics.Font.ScaledAndBlankedLineH;
         float h = 0;
         float mw = 0;
 
@@ -157,7 +159,7 @@ public class XGui : XUIElementManager
         foreach(Lore o in TooltipList)
         {
             GlyphBounds bd = graphics.Font.GetBounds(o, maxw0);
-            var w = bd.Width;
+            float w = bd.Width;
             mw = Math.Max(mw, w);
             h += bd.Height;
             if(w > maxw0) mw = maxw0;
@@ -169,13 +171,13 @@ public class XGui : XUIElementManager
 
         if(y - 12 <= 0) y = Math.Min(Size.y, 12);
 
-        DefaultTooltipPatches.Draw(graphics, x - 4, y - 4, mw + 8, h + 8);
+        DefaultTooltipPatches.InternalPerform(graphics, x - 4, y - 4, mw + 8, h + 8);
 
         float dy = 0;
         foreach(Lore o in TooltipList)
         {
-            var hin = graphics.Font.GetBounds(o, maxw0).Height;
-            graphics.Draw(o, x, y + dy + hin - eh, maxw0);
+            float hin = graphics.Font.GetBounds(o, maxw0).Height;
+            graphics.DrawLore(o, x, y + dy + hin - eh, maxw0);
             dy += hin;
         }
     }

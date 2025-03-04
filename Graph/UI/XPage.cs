@@ -1,4 +1,6 @@
 ﻿using XenonUI.Core;
+using XenonUI.Graph.Images;
+using XenonUI.Graph.Text;
 using XenonUI.Maths;
 
 namespace XenonUI.Graph.UI;
@@ -94,7 +96,7 @@ public class XPage : XElement, XUIElementGroup
 
     public override void Draw(Graphics graphics)
     {
-        graphics.Draw(Icon, Bound);
+        graphics.DrawIcon(Icon, Bound);
 
         base.Draw(graphics);
 
@@ -105,7 +107,7 @@ public class XPage : XElement, XUIElementGroup
             c.Bound.Translate(-Bound.x, -Bound.y);
         }
 
-        graphics.Draw(Title, Bound.x + TitleOffset.x, Bound.yprom - LabelH + TitleOffset.y);
+        graphics.DrawLore(Title, Bound.x + TitleOffset.x, Bound.yprom - LabelH + TitleOffset.y);
     }
 
 }

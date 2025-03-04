@@ -1,4 +1,5 @@
 ﻿using XenonUI.Core;
+using XenonUI.Graph.Text;
 using XenonUI.Maths;
 
 namespace XenonUI.Graph.UI;
@@ -31,9 +32,9 @@ public abstract class XElement
     {
         if(Parent == null) return true;
 
-        var idx = Parent.Values.IndexOf(this);
+        int idx = Parent.Values.IndexOf(this);
 
-        for(var i = 0; i < Parent.Values.Count; i++)
+        for(int i = 0; i < Parent.Values.Count; i++)
         {
             XElement c = Parent.Values[i];
             if(c.Bound.Contains(Cursor) && i > idx) return false;
@@ -42,9 +43,9 @@ public abstract class XElement
         //if is in a window
         if(Parent is XPage win)
         {
-            var idx1 = win.Parent.Values.IndexOf(win);
+            int idx1 = win.Parent.Values.IndexOf(win);
             //check in screen other windows.
-            for(var i1 = 0; i1 < win.Parent.Values.Count; i1++)
+            for(int i1 = 0; i1 < win.Parent.Values.Count; i1++)
             {
                 XElement c1 = win.Parent.Values[i1];
                 if(c1.Bound.Contains(Cursor) && i1 < idx1 && c1 is XPage) return false;

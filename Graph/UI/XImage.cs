@@ -1,4 +1,6 @@
-﻿namespace XenonUI.Graph.UI;
+﻿using XenonUI.Graph.Images;
+
+namespace XenonUI.Graph.UI;
 
 public class XImage : XElement
 {
@@ -7,7 +9,7 @@ public class XImage : XElement
 
     public override void Draw(Graphics graphics)
     {
-        graphics.Draw(Icon, Bound);
+        graphics.DrawIcon(Icon, Bound);
     }
 
 }

@@ -1,4 +1,6 @@
-﻿namespace XenonUI.Graph.UI;
+﻿using XenonUI.Graph.Text;
+
+namespace XenonUI.Graph.UI;
 
 public class XTextView : XElement
 {
@@ -21,11 +23,11 @@ public class XTextView : XElement
     {
         TotalSize = graphics.Font.GetBounds(DisplayedLore, Bound.w - 2).Height;
 
-        var pos = Scroller.Pos;
-        var o = Scroller.Outline;
+        float pos = Scroller.Pos;
+        float o = Scroller.Outline;
 
         graphics.Scissor(Bound.x + o, Bound.y + o - 1, Bound.w - o * 2, Bound.h - o * 2 + 2);
-        graphics.Draw(DisplayedLore, Bound.x + o, Bound.yprom + pos - graphics.Font.LineH, Bound.w - o * 2);
+        graphics.DrawLore(DisplayedLore, Bound.x + o, Bound.yprom + pos - graphics.Font.LineH, Bound.w - o * 2);
         graphics.ScissorEnd();
 
         Scroller.Draw(graphics, this);

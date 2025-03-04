@@ -3,9 +3,17 @@
 public struct Vector4
 {
 
+    public static Vector4 Zero = new Vector4(0, 0, 0, 0);
     public static Vector4 One = new Vector4(1, 1, 1, 1);
 
     public float x, y, z, w;
+   
+    public int xi => (int)x;
+    public int yi => (int)y;
+    public int zi => (int)z;
+    public int wi => (int)w;
+
+    public float Len => Mathf.Sqrt(x * x + y * y + z * z + w * w);
 
     public Vector4(float x, float y, float z, float w)
     {
@@ -70,12 +78,6 @@ public struct Vector4
     public static Vector4 operator -(Vector4 vec)
     {
         return new Vector4(-vec.x, -vec.y, -vec.z, -vec.w);
-    }
-
-    //Dot Operation.
-    public static float operator ^(Vector4 vec1, Vector4 vec2)
-    {
-        return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z + vec1.w * vec2.w;
     }
 
 }

@@ -9,36 +9,26 @@ public class Camera
     public Transform CombinedTransform = new Transform();
     public Transform InvertedTransform = new Transform();
     public Transform ProjectionTransform = new Transform();
-    public float Rotation = 0.0f;
+    public Transform TranslationTransform = new Transform();
+    public Angle Rotation = Angle.Radian(0);
     public float ScaleX = 1.0f;
     public float ScaleY = 1.0f;
     public bool ShouldSeeCenter;
-    protected Transform TranslationTransform = new Transform();
     public Rect Viewport = new Rect();
-
-    public bool IsInSight(float x, float y, float w, float h, ref Vector4 vp)
-    {
-        tmp.x = x;
-        tmp.y = y;
-        Project(tmp, vp);
-        w /= ScaleX;
-        h /= ScaleY;
-        var vx = Center.x - Viewport.w / 2;
-        var vy = Center.y - Viewport.h / 2;
-        return tmp.x + w > vx && tmp.y + h > vy && tmp.x < Viewport.w && tmp.y < Viewport.h;
-    }
 
     public void Push()
     {
         if(ShouldSeeCenter) Center = new Vector2(Viewport.w / 2.0f, Viewport.h / 2.0f);
 
-        var hw = Viewport.w / 2.0f;
-        var hh = Viewport.h / 2.0f;
-        ProjectionTransform.ToOrtho(ScaleX * -hw, ScaleX * hw, ScaleY * -hh, ScaleY * hh);
-        TranslationTransform.Set(-Center.x, -Center.y, Rotation, 1.0f, 1.0f);
-        CombinedTransform.Set(ProjectionTransform);
-        CombinedTransform.Mul(TranslationTransform);
-        InvertedTransform.Set(CombinedTransform);
+        float hw = Viewport.w / 2.0f;
+        float hh = Viewport.h / 2.0f;
+        ProjectionTransform.Orthographic(ScaleX * -hw, ScaleX * hw, ScaleY * -hh, ScaleY * hh);
+        TranslationTransform.Identity();
+        TranslationTransform.Rotate(Rotation);
+        TranslationTransform.Translate(-Center.x, -Center.y);
+        CombinedTransform.Load(ProjectionTransform);
+        CombinedTransform.Product(TranslationTransform);
+        InvertedTransform.Load(CombinedTransform);
         InvertedTransform.Invert();
         ShouldSeeCenter = false;
     }

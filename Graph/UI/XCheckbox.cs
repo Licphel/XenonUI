@@ -1,4 +1,6 @@
 ﻿using XenonUI.Core;
+using XenonUI.Graph.Images;
+using XenonUI.Graph.Text;
 using XenonUI.Maths;
 
 namespace XenonUI.Graph.UI;
@@ -28,17 +30,17 @@ public class XCheckbox : XElement
 
         if(IsOn)
         {
-            graphics.Draw(Icons[1], Bound);
+            graphics.DrawIcon(Icons[1], Bound);
         }
         else
         {
             if(ShouldShowCross)
-                graphics.Draw(Icons[2], Bound);
+                graphics.DrawIcon(Icons[2], Bound);
             else
-                graphics.Draw(Icons[0], Bound);
+                graphics.DrawIcon(Icons[0], Bound);
         }
 
-        graphics.Draw(DisplayedLore, Bound.xprom + TextOffset.x, Bound.y + TextOffset.y);
+        graphics.DrawLore(DisplayedLore, Bound.xprom + TextOffset.x, Bound.y + TextOffset.y);
     }
 
 }

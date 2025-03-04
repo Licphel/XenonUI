@@ -1,106 +1,88 @@
-﻿using KryptonM.Maths;
-using XenonUI.Maths;
+﻿using XenonUI.Maths;
 
 namespace XenonUI.Graph;
 
-public class MatrixStack
+public unsafe class MatrixStack
 {
 
-    private readonly Stack<Transform> Stack = new Stack<Transform>();
+    public Transform Projection;
+    public Transform[] ModelStack = new Transform[256];
+    public int Len = 1;
+    public ref Transform Top => ref ModelStack[Len - 1];
+    public bool IsEmpty => Len == 1;
 
-    public bool Changed;
-
-    private Transform[] TempMats;
-    public Transform Top = new Transform();
+    public ref Transform GetCombinedTransform()
+    {
+        Transform c = Projection;
+        c.Product(Top);
+        return ref c;
+    }
 
     public MatrixStack()
     {
-        RecreateMatsForLen(128);
-        Stack.Push(Top);
+        Clear();
     }
 
-    public bool IsEmpty => Stack.Count == 1; //Top0 is never removed.
-
-    public void RecreateMatsForLen(int len)
+    public void Clear()
     {
-        if(TempMats == null || TempMats.Length < len)
-        {
-            TempMats = new Transform[len];
-            for(var i = 0; i < TempMats.Length; i++) TempMats[i] = new Transform();
-        }
+        Len = 1;
+        ModelStack[0].Identity();
     }
 
     public void Push()
     {
-        var take = Stack.Count;
-        if(take < TempMats.Length)
-        {
-            Transform aff = TempMats[take];
-            aff.Identity();
-            Push(aff);
-            return;
-        }
-
-        Push(new Transform());
+        Len++;
+        _doCheck();
+        ModelStack[Len - 1].Load(ModelStack[Len - 2]);
     }
 
-    private void Push(Transform aff)
+    private void _doCheck()
     {
-        Top = aff;
-        Top.Set(Stack.Peek());
-        Stack.Push(Top);
-        Changed = true;
+        if(IsEmpty)
+            throw new Exception("Cannot modify the base matrix.");
     }
 
     public void Pop()
     {
-        Stack.Pop();
-        Top = Stack.Peek();
-        Changed = true;
+        Len--;
     }
 
-    public void Load(Transform Transform)
+    public void Load(in Transform transform)
     {
-        Top.Set(Transform);
-        Changed = true;
+        _doCheck();
+        Top.Load(transform);
     }
 
-    public void RotateRad(float f)
+    public void Rotate(Angle f)
     {
+        _doCheck();
         Top.Rotate(f);
-        Changed = true;
     }
-
-    public void RotateDeg(float f)
+    
+    public void Rotate(Rotation r)
     {
-        Top.Rotate(FloatMath.Rad(f));
-        Changed = true;
+        _doCheck();
+        Top.Translate(r.cx, r.cy);
+        Top.Rotate(r.Angle);
+        Top.Translate(-r.cx, -r.cy);
     }
-
-    public void RotateRad(float f, float x, float y)
-    {
-        Translate(x, y);
-        RotateRad(f);
-        Translate(-x, -y);
-    }
-
-    public void RotateDeg(float f, float x, float y)
-    {
-        Translate(x, y);
-        RotateDeg(f);
-        Translate(-x, -y);
-    }
-
+    
     public void Translate(float x, float y)
     {
+        _doCheck();
         Top.Translate(x, y);
-        Changed = true;
     }
 
     public void Scale(float x, float y)
     {
+        _doCheck();
         Top.Scale(x, y);
-        Changed = true;
+    }
+    
+    public void Shear(float x, float y)
+    {
+        _doCheck();
+        Top.Shear(x, y);
     }
 
 }

@@ -1,6 +1,4 @@
-﻿using KryptonM.Maths;
-
-namespace XenonUI.Maths;
+﻿namespace XenonUI.Maths;
 
 public class VaryingVector2
 {
@@ -26,19 +24,19 @@ public class VaryingVector2
     public int xi => (int)x;
     public int yi => (int)y;
 
-    public float Len => FloatMath.Sqrt(x * x + y * y);
+    public float Len => Mathf.Sqrt(x * x + y * y);
 
     public VaryingVector2 FromDeg(float ln, float deg)
     {
-        x = FloatMath.CosDeg(deg) * ln;
-        y = FloatMath.SinDeg(deg) * ln;
+        x = Mathf.CosDeg(deg) * ln;
+        y = Mathf.SinDeg(deg) * ln;
         return this;
     }
 
     public VaryingVector2 FromRad(float ln, float rad)
     {
-        x = FloatMath.CosRad(rad) * ln;
-        y = FloatMath.SinRad(rad) * ln;
+        x = Mathf.CosRad(rad) * ln;
+        y = Mathf.SinRad(rad) * ln;
         return this;
     }
 
@@ -111,10 +109,9 @@ public class VaryingVector2
         return rvec;
     }
 
-    //Dot Operation.
-    public static float operator ^(VaryingVector2 rvec1, VaryingVector2 rvec2)
+    public static explicit operator Vector2(VaryingVector2 v)
     {
-        return rvec1.x * rvec2.x + rvec1.y * rvec2.y;
+        return new Vector2(v.x, v.y);
     }
 
 }

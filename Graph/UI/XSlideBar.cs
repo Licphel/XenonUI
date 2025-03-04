@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using XenonUI.Core;
+using XenonUI.Graph.Images;
+using XenonUI.Graph.Text;
 using XenonUI.Maths;
 
 namespace XenonUI.Graph.UI;
@@ -61,7 +63,7 @@ public class XSlideBar : XElement
 
         Keyboard input = Keyboard.Global;
 
-        var scr = input.Scroll;
+        float scr = input.Scroll;
 
         if(Bound.Contains(Cursor) && IsExposed() && scrollBuf < 0 && scr != 0)
         {
@@ -88,12 +90,12 @@ public class XSlideBar : XElement
 
     public override void Draw(Graphics graphics)
     {
-        graphics.Draw(Icon, Bound);
+        graphics.DrawIcon(Icon, Bound);
 
-        var special = TextRelinker.Invoke(Value);
+        string special = TextRelinker.Invoke(Value);
         Lore? drw = Display == null ? Lore.Literal(special) : Display?.Combine(Lore.Literal(": " + special));
 
-        graphics.Draw((Lore)drw, Bound.xcentral, Bound.y + 4, Align.Center);
+        graphics.DrawLore((Lore)drw, Bound.xcentral, Bound.y + 4, FontAlign.Center);
 
         decrease.Draw(graphics);
         increase.Draw(graphics);

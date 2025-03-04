@@ -1,5 +1,6 @@
 ﻿using XenonUI.Core;
-using XenonUI.Graph.IMP;
+using XenonUI.Graph.Images;
+using XenonUI.Graph.Text;
 using XenonUI.Maths;
 
 namespace XenonUI.Graph.UI;
@@ -57,13 +58,13 @@ public class XButton : XElement
         if(Texture3Line == null)
         {
             if(pressDelay > 0 || (IsOn && IsSwitcher))
-                graphics.Draw(Icons[2], Bound);
+                graphics.DrawIcon(Icons[2], Bound);
             else if(cursorOn)
-                graphics.Draw(Icons[1], Bound);
+                graphics.DrawIcon(Icons[1], Bound);
             else
-                graphics.Draw(Icons[0], Bound);
+                graphics.DrawIcon(Icons[0], Bound);
 
-            graphics.Draw(Text, Bound.xcentral + TextOffset.x, Bound.y + TextOffset.y, Align.Center);
+            graphics.DrawLore(Text, Bound.xcentral + TextOffset.x, Bound.y + TextOffset.y, FontAlign.Center);
         }
         else
         {
@@ -76,7 +77,7 @@ public class XButton : XElement
                 sy = 0;
 
             graphics.DrawImage(Texture3Line, Bound, 0, sy, Texture3Line.Width, Texture3Line.Height / 3f);
-            graphics.Draw(Text, Bound.xcentral + TextOffset.x, Bound.y + TextOffset.y, Align.Center);
+            graphics.DrawLore(Text, Bound.xcentral + TextOffset.x, Bound.y + TextOffset.y, FontAlign.Center);
         }
     }
 

@@ -4,7 +4,7 @@ public struct Color
 {
 
 	/// <summary>
-	///     It should be over 0 and less than 1, but sometimes, when colors are merging, it can overstep.
+	/// It should be over 0 and less than 1, but sometimes, when colors are merging, it can overstep.
 	/// </summary>
 	public float R, G, B, A;
 
@@ -84,11 +84,11 @@ public struct Color
 
     public static Color HsvToRgb(float hue, float saturation, float value)
     {
-        var i = (int)(hue * 6) % 6;
-        var f = hue * 6 - i;
-        var f1 = value * (1 - saturation);
-        var f2 = value * (1 - f * saturation);
-        var f3 = value * (1 - (1 - f) * saturation);
+        int i = (int)(hue * 6) % 6;
+        float f = hue * 6 - i;
+        float f1 = value * (1 - saturation);
+        float f2 = value * (1 - f * saturation);
+        float f3 = value * (1 - (1 - f) * saturation);
         float f4 = 0;
         float f5 = 0;
         float f6 = 0;

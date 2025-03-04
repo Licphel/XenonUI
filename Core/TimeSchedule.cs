@@ -1,4 +1,4 @@
-﻿using KryptonM.Maths;
+﻿using XenonUI.Maths;
 
 namespace XenonUI.Core;
 
@@ -19,7 +19,12 @@ public class TimeSchedule
 
     public static bool PeriodicTask(float seconds)
     {
-        var ticks = FloatMath.Round(seconds * Application.MaxTps);
+        if(seconds < 0)
+            throw new Exception("Time is negative.");
+        if(seconds == 0)
+            return true;
+        
+        int ticks = Mathf.Round(seconds * Application.MaxTps);
         return Time.Ticks % ticks == 0;
     }
 

@@ -3,12 +3,28 @@
 public struct Vector3
 {
 
+    public static Vector3 Zero = new Vector3(0, 0, 0);
+    public static Vector3 One = new Vector3(1, 1, 1);
+    
     public float x, y, z;
+    
+    public int xi => (int)x;
+    public int yi => (int)y;
+    public int zi => (int)z;
+
+    public float Len => Mathf.Sqrt(x * x + y * y + z * z);
 
     public Vector3(float x, float y, float z)
     {
         this.x = x;
         this.y = y;
+        this.z = z;
+    }
+    
+    public Vector3(Vector2 v, float z)
+    {
+        x = v.x;
+        y = v.y;
         this.z = z;
     }
 
@@ -59,12 +75,6 @@ public struct Vector3
     public static Vector3 operator -(Vector3 vec)
     {
         return new Vector3(-vec.x, -vec.y, -vec.z);
-    }
-
-    //Dot Operation.
-    public static float operator ^(Vector3 vec1, Vector3 vec2)
-    {
-        return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
     }
 
 }

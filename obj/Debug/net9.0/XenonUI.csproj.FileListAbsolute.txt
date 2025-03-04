@@ -13,3 +13,4 @@ D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\XenonUI.dll
 D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\refint\XenonUI.dll
 D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\XenonUI.pdb
 D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\ref\XenonUI.dll
+D:\XenonUI Environment\XenonUI\obj\Debug\net9.0\XenonUI.sourcelink.json

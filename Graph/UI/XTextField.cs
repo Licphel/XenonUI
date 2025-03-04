@@ -1,5 +1,7 @@
 ﻿using System.Text;
 using XenonUI.Core;
+using XenonUI.Graph.Images;
+using XenonUI.Graph.Text;
 
 namespace XenonUI.Graph.UI;
 
@@ -50,15 +52,15 @@ public class XTextField : XElement
         Scroller.TotalSize = TotalSize;
         Scroller.Update(this);
 
-        var boundIn = Bound.Contains(Cursor);
-        var pressed = KeyBind.MouseLeft.Pressed();
+        bool boundIn = Bound.Contains(Cursor);
+        bool pressed = KeyBind.MouseLeft.Pressed();
 
         Keyboard input = Keyboard.Global;
 
         if(Highlighted == this)
         {
             //Common Input Operations
-            var txt = input.Text;
+            string txt = input.Text;
             if(!string.IsNullOrEmpty(txt))
             {
                 insert(txt);
@@ -112,11 +114,11 @@ public class XTextField : XElement
     public override void Draw(Graphics graphics)
     {
         if(Highlighted == this)
-            graphics.Draw(Icons[2], Bound);
+            graphics.DrawIcon(Icons[2], Bound);
         else if(cursorOn)
-            graphics.Draw(Icons[1], Bound);
+            graphics.DrawIcon(Icons[1], Bound);
         else
-            graphics.Draw(Icons[0], Bound);
+            graphics.DrawIcon(Icons[0], Bound);
 
         if(text.Length == 0)
             renderInBox(graphics, InputHint, new Color(1, 1, 1, 0.2f));
@@ -126,8 +128,8 @@ public class XTextField : XElement
 
     private void renderInBox(Graphics graphics, string textIn, Color color)
     {
-        var x = Bound.x + Scroller.Outline;
-        var y = Bound.yprom - graphics.Font.LineH - Scroller.Outline;
+        float x = Bound.x + Scroller.Outline;
+        float y = Bound.yprom - graphics.Font.LineH - Scroller.Outline;
 
         graphics.Color4(color);
         TotalSize = graphics.Font.GetBounds(textIn, Bound.w - Scroller.Outline * 2).Height;
@@ -139,11 +141,11 @@ public class XTextField : XElement
             Scroller.DownToGround(this);
         }
 
-        var pos = Scroller.Pos;
-        var o = Scroller.Outline;
+        float pos = Scroller.Pos;
+        float o = Scroller.Outline;
 
         graphics.Scissor(Bound.x + o, Bound.y + o - 1, Bound.w - o * 2, Bound.h - o * 2 + 2);
-        graphics.Draw(textIn, Bound.x + o, Bound.yprom + pos - graphics.Font.LineH, Bound.w - o * 2);
+        graphics.DrawText(textIn, Bound.x + o, Bound.yprom + pos - graphics.Font.LineH, Bound.w - o * 2);
         graphics.ScissorEnd();
 
         Scroller.Draw(graphics, this);
